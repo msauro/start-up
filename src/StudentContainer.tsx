@@ -1,37 +1,40 @@
-
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-//import { ProductService } from './service/ProductService';
+import { studentsList } from './data/students';
 
-interface Product {
+interface Student {
     id: string;
-    code: string;
-    name: string;
-    description: string;
-    image: string;
-    price: number;
-    category: string;
-    quantity: number;
-    inventoryStatus: string;
-    rating: number;
+    name: string,
+    surname: string,	
+    mail: string,
+    phone: number,
+    isActive: boolean,
 }
-        
 
 export const StudentContainer = () => {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [students, setStudents] = useState<Student[]>([]);
 
-    useEffect(() => {
-        ProductService.getProductsMini().then(data => setProducts(data));
+
+   useEffect(() => {
+    setStudents(studentsList)
+
+   //     TeachersService.getTeachers().then(data => setTeachers(data));
     }, []);
+
   return (
-    <div className="card">
-        <DataTable value={products} tableStyle={{ minWidth: '50rem' }}>
-            <Column field="code" header="Code"></Column>
-            <Column field="name" header="Name"></Column>
-            <Column field="category" header="Category"></Column>
-            <Column field="quantity" header="Quantity"></Column>
-        </DataTable>
-    </div>
+    <>
+        <h2>StudentContainer</h2>
+        <div className="card">
+            
+            <DataTable value={students} tableStyle={{ minWidth: '50rem' }}>
+                <Column field="name" header="Name"></Column>
+                <Column field="surname" header="Surname"></Column>
+                <Column field="mail" header="Mail"></Column>
+                <Column field="phone" header="Phone"></Column>
+                <Column field="isActive" header="Active"></Column>
+            </DataTable>
+        </div>
+    </>
   )
 }

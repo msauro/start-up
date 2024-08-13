@@ -1,24 +1,47 @@
 import { Menubar } from 'primereact/menubar';
 import { MenuItem } from 'primereact/menuitem';
+import { useState } from 'react';
+import { StudentContainer } from './StudentContainer';
+import { TeacherContainer } from './TeacherContainer';
 
+    enum menubar {
+        HOME,
+        TEACHER,
+        STUDENT,
+        SCHEDULE,
+        CONTACT
+    }
 
     export const StartUpContainer = () => {
+
+        const [selectedMenu, setSelectedMenu] = useState<menubar>(menubar.HOME)
+        
+        const onClickMenu = (e: menubar) =>{
+            setSelectedMenu(e)
+        }
+
     const items: MenuItem[] = [
         {
             label: 'Home',
-            icon: 'pi pi-home'
+            icon: 'pi pi-home',
+            command: () => onClickMenu(menubar.HOME)
         },
         {
             label: 'Teachers',
-            icon: 'pi pi-user-edit'
+            icon: 'pi pi-user-edit',
+            command: () => onClickMenu(menubar.TEACHER)
+
         },
         {
             label: 'Students',
-            icon: 'pi pi-users'
+            icon: 'pi pi-users',
+            command: () => onClickMenu(menubar.STUDENT)
+
         },
         {
             label: 'Schedule',
             icon: 'pi pi-calendar',
+            command: () => onClickMenu(menubar.SCHEDULE),
             items: [
                 {
                     label: 'Elementary',
@@ -38,7 +61,8 @@ import { MenuItem } from 'primereact/menuitem';
                     items: [
                         {
                             label: 'Apollo',
-                            icon: 'pi pi-palette'
+                            icon: 'pi pi-palette',
+                            url: '/theming'
                         },
                         {
                             label: 'Ultima',
@@ -50,13 +74,20 @@ import { MenuItem } from 'primereact/menuitem';
         },
         {
             label: 'Contact',
-            icon: 'pi pi-envelope'
+            icon: 'pi pi-envelope',
+            command: () => onClickMenu(menubar.CONTACT),
+
         }
     ];
     
     return (
+        <>
         <div className="card">
             <Menubar model={items} />
         </div>
+        {selectedMenu === menubar.STUDENT && <StudentContainer/>}
+        {selectedMenu === menubar.TEACHER && <TeacherContainer/>}
+
+        </>
     )
 }
