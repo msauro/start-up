@@ -1,3 +1,5 @@
+import { Role } from "../models/person";
+
 export const studentsList = [
 
 {
@@ -5,6 +7,8 @@ export const studentsList = [
   "name": 'Ramon',
   "surname": 'Diaz',	
   "mail": 'ramon@a.com',
+  "rol": Role.STUDENT,
+  "level": 'E1',
   "phone": 3415000000,
 	"isActive": true,
 },
@@ -13,6 +17,8 @@ export const studentsList = [
   "name": 'Lucia',
   "surname": 'Nude',	
   "mail": 'nude@ab.com',
+  "rol": Role.STUDENT,
+  "level": 'I1',
   "phone": 3415000001,
 	"isActive": true,
 },
@@ -21,6 +27,8 @@ export const studentsList = [
   "name": 'Lucas',
   "surname": 'Ferrarini',	
   "mail": 'lucas@a.com',
+  "rol": Role.STUDENT,
+  "level": 'A2',
   "phone": 3415000002,
 	"isActive": true,
 },
@@ -29,8 +37,10 @@ export const studentsList = [
   "name": 'Matias',
   "surname": 'Sauro',	
   "mail": 'matias@a.com',
+  "rol": Role.STUDENT,
+  "level": 'A1',
   "phone": 3415000003,
-	"isActive": true,
+	"isActive": false,
 },
 
 ]

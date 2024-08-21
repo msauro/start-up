@@ -3,6 +3,7 @@ import { MenuItem } from 'primereact/menuitem';
 import { useState } from 'react';
 import { StudentContainer } from './StudentContainer';
 import { TeacherContainer } from './TeacherContainer';
+import { BreadCrumb } from './components/Breadcrumb';
 
     enum menubar {
         HOME,
@@ -82,11 +83,20 @@ import { TeacherContainer } from './TeacherContainer';
     
     return (
         <>
-        <div className="card">
-            <Menubar model={items} />
-        </div>
-        {selectedMenu === menubar.STUDENT && <StudentContainer/>}
-        {selectedMenu === menubar.TEACHER && <TeacherContainer/>}
+        <Menubar model={items} />
+
+        <BreadCrumb breadCrumbName={menubar[selectedMenu]}/>
+
+        {selectedMenu === menubar.STUDENT && (
+            <>
+
+            <StudentContainer/>
+            </>
+        )}
+        {selectedMenu === menubar.TEACHER && (
+            <TeacherContainer/>
+            )}
+
 
         </>
     )

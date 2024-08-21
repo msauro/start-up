@@ -1,3 +1,5 @@
+import { Role } from "../models/person";
+
 export const teachersList = [
 
     {
@@ -7,6 +9,8 @@ export const teachersList = [
       "mail": 'emi@a.com',
       "phone": 3413000000,
       "isActive": true,
+      "rol": Role.TEACHER,
+   
     },
     {
       "id": "02",
@@ -14,7 +18,9 @@ export const teachersList = [
       "surname": 'Lopez',	
       "mail": 'marta@ab.com',
       "phone": 3413000001,
-      "isActive": true,
+      "isActive": false,
+      "rol": Role.TEACHER,
+
     },
     {
       "id": "03",
@@ -23,6 +29,8 @@ export const teachersList = [
       "mail": 'andrea@a.com',
       "phone": 3413000002,
       "isActive": true,
+      "rol": Role.TEACHER,
+
     },
     {
       "id": "04",
@@ -31,6 +39,8 @@ export const teachersList = [
       "mail": 'mari@a.com',
       "phone": 3413000003,
       "isActive": false,
+      "rol": Role.TEACHER,
+
     },
     
     ]
