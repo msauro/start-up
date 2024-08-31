@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { teachersList } from './data/teachers';
 import { DataTableSt } from './components/DataTableSt';
 import Teacher from './models/Teacher';
+import { AddButton } from './components/AddButton';
 
 // interface Teacher {
 //     id: string;
@@ -26,7 +27,10 @@ export const TeacherContainer = () => {
 
     return (
         <>
-            {teachers.length &&
+        {console.log(teachers)}
+            <AddButton />
+            {teachers.length >0 &&
+            
                 <div className="card">
                     <DataTableSt dataPerson={teachersList} />
                 </div>

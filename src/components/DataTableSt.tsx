@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { InputSwitch, InputSwitchChangeEvent } from 'primereact/inputswitch';
 import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
+import { PersonDetail } from '../PersonDetail';
 
 interface Data {
     dataPerson: Student[] | Teacher[];
@@ -18,8 +19,6 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
   const footer = `In total there are ${data ? data.length : 0} rows.`;
   const dataPersonFiltered = dataPerson.filter((row) => row.isActive == true)
 
-{console.log('data');}
-{console.log(data);}
     useEffect(() => {
         if (metaKey){
           setData(dataPerson)
@@ -45,13 +44,15 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
     };
 
     const iconBodyTemplate = (rowData: Student | Teacher) => {
-      function handleIconClick(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
-console.log('event', event)      }
+      function handleIconClick(action: string) {
+          <PersonDetail type={rowData.rol} action={action}/>
+        
+    }
 
       return(
         <>
-        <Button icon='pi pi-eye' className='primary' onClick={handleIconClick} />
-        <Button icon='pi pi-trash' className='primary' style={{marginLeft:'5px'}} onClick={handleIconClick} />
+        <Button icon='pi pi-eye' value='detail' className='primary' onClick={()=>handleIconClick('detail')} />
+        <Button icon='pi pi-trash' value='trash' className='primary' severity='danger' style={{marginLeft:'5px'}} onClick={()=>handleIconClick('trash')} />
        </>
       )
     };
@@ -60,7 +61,7 @@ console.log('event', event)      }
     <>
      <div className="flex justify-content-center align-items-center mb-4 gap-2">
         <InputSwitch inputId="input-metakey" checked={metaKey} onChange={(e: InputSwitchChangeEvent) => setMetaKey(e.value!) } />
-        <label htmlFor="input-metakey">Show inactives too</label>
+        <label htmlFor="input-metakey">Show all</label>
     </div>
     {
       data &&

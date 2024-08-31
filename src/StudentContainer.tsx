@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { studentsList } from './data/students';
 import { DataTableSt } from './components/DataTableSt';
 import Student from './models/Student';
+import { AddButton } from './components/AddButton';
 
 //repite con teacher
 export const StudentContainer = () => {
@@ -17,7 +18,9 @@ export const StudentContainer = () => {
 
     return (
         <>
-            {students.length &&
+            <AddButton />
+
+            {students.length > 0 && 
 
                 <div className="card">
                     <DataTableSt dataPerson={studentsList} />

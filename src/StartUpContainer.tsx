@@ -89,13 +89,12 @@ import { BreadCrumb } from './components/Breadcrumb';
 
         {selectedMenu === menubar.STUDENT && (
             <>
-
-            <StudentContainer/>
+                <StudentContainer/>
             </>
         )}
         {selectedMenu === menubar.TEACHER && (
             <TeacherContainer/>
-            )}
+        )}
 
 
         </>

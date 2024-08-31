@@ -15,7 +15,6 @@ createRoot(document.getElementById('root')!).render(
 
   <PrimeReactProvider>
     
-
     {/* <App /> */}
     <StartUpContainer />
   </PrimeReactProvider>
