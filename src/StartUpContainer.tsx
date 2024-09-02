@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { StudentContainer } from './StudentContainer';
 import { TeacherContainer } from './TeacherContainer';
 import { BreadCrumb } from './components/Breadcrumb';
+import { ScheduleContainer } from './ScheduleContainer';
+import { ContactContainer } from './ContactContainer';
+import { HomeContainer } from './HomeContainer';
 
     enum menubar {
         HOME,
@@ -87,6 +90,11 @@ import { BreadCrumb } from './components/Breadcrumb';
 
         <BreadCrumb breadCrumbName={menubar[selectedMenu]}/>
 
+        {selectedMenu === menubar.HOME && (
+            <>
+                <HomeContainer />
+            </>
+        )}
         {selectedMenu === menubar.STUDENT && (
             <>
                 <StudentContainer/>
@@ -94,6 +102,12 @@ import { BreadCrumb } from './components/Breadcrumb';
         )}
         {selectedMenu === menubar.TEACHER && (
             <TeacherContainer/>
+        )}
+        {selectedMenu === menubar.SCHEDULE && (
+            <ScheduleContainer />
+        )}
+        {selectedMenu === menubar.CONTACT && (
+            <ContactContainer />
         )}
 
 
