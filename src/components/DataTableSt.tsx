@@ -13,9 +13,16 @@ interface Data {
     dataPerson: Student[] | Teacher[];
 }
 
+enum ActionType{
+  DETAIL = 'detail',
+  DELETE = 'delete'
+}
+
 export const DataTableSt: React.FC<Data> = ({ dataPerson }) => { 
   const [metaKey, setMetaKey] = useState<boolean>(false);
   const [data, setData] = useState<Student[] | Teacher[]>([]);
+  const [selectedPerson, setSelectedPerson] = useState<Student | Teacher>();
+  const [action, setAction] = useState<string>();
   const footer = `In total there are ${data ? data.length : 0} rows.`;
   const dataPersonFiltered = dataPerson.filter((row) => row.isActive == true)
 
@@ -43,19 +50,47 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
       return <Tag value={rowData.isActive.toString()} severity={getSeverity((rowData.isActive).toString())} />;
     };
 
-    const iconBodyTemplate = (rowData: Student | Teacher) => {
-      function handleIconClick(action: string) {
-          <PersonDetail type={rowData.rol} action={action}/>
-        
+    const handleIconClick = (selectedPerson: Student | Teacher, action: string)=> {
+      setSelectedPerson(selectedPerson)
+      setAction(action)
+      console.log ('rowData')
+      console.log (selectedPerson, action)
+      // return <PersonDetail selectedPerson={selectedPerson} action={action}/>
     }
 
+    const handleBackClick = () => { //DEBERIA HACER ESTO PARA EL MENU TAMBIEN
+      setSelectedPerson(null);
+      setAction(null);
+    };
+
+    const iconBodyTemplate = (selectedPerson: Student | Teacher) => {
       return(
         <>
-        <Button icon='pi pi-eye' value='detail' className='primary' onClick={()=>handleIconClick('detail')} />
-        <Button icon='pi pi-trash' value='trash' className='primary' severity='danger' style={{marginLeft:'5px'}} onClick={()=>handleIconClick('trash')} />
+          <Button 
+            icon='pi pi-eye' 
+            value='detail' 
+            className='primary' 
+            onClick={()=>handleIconClick(selectedPerson, ActionType.DETAIL)} 
+          />
+          <Button 
+          icon='pi pi-trash' 
+          value='trash' 
+          className='primary' 
+          severity='danger' 
+          style={{marginLeft:'5px'}} 
+          onClick={()=>handleIconClick(selectedPerson, ActionType.DELETE)} />
        </>
       )
     };
+
+    if (action === ActionType.DETAIL && selectedPerson) {
+      return (
+        <PersonDetail 
+        rol={selectedPerson.rol} 
+        selectedPerson={selectedPerson} 
+        onBack={handleBackClick} />
+      );
+    }
 
   return (
     <>

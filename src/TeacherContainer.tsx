@@ -27,7 +27,7 @@ export const TeacherContainer = () => {
 
     return (
         <>
-        {console.log(teachers)}
+        
             <AddButton />
             {teachers.length >0 &&
             

@@ -10,6 +10,7 @@ export const studentsList = [
   "rol": Role.STUDENT,
   "level": 'E1',
   "phone": 3415000000,
+  "city": 'Rosario',
 	"isActive": true,
 },
 {
@@ -20,6 +21,7 @@ export const studentsList = [
   "rol": Role.STUDENT,
   "level": 'I1',
   "phone": 3415000001,
+  "city": 'Cordoba',
 	"isActive": true,
 },
 {

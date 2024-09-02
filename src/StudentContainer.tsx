@@ -21,7 +21,6 @@ export const StudentContainer = () => {
             <AddButton />
 
             {students.length > 0 && 
-
                 <div className="card">
                     <DataTableSt dataPerson={studentsList} />
                 </div>
