@@ -3,6 +3,7 @@ export default interface Person {
   id: string,
   name: string,
   surname: string,
+  alias: string,
   dob?: Date,
   mail: string,
   phone: number,

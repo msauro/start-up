@@ -53,8 +53,6 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
     const handleIconClick = (selectedPerson: Student | Teacher, action: string)=> {
       setSelectedPerson(selectedPerson)
       setAction(action)
-      console.log ('rowData')
-      console.log (selectedPerson, action)
       // return <PersonDetail selectedPerson={selectedPerson} action={action}/>
     }
 
@@ -106,6 +104,7 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
           <Column field="mail" header="Mail"></Column>
           <Column field="phone" header="Phone"></Column>
           {dataPerson[0].rol === Role.STUDENT && <Column field="level" sortable header="Level"></Column>}
+          <Column field="alias" sortable header="Alias"></Column>
           <Column field="isActive" header="Active" body={statusBodyTemplate}  />
           <Column field="actions" header="Actions" body={iconBodyTemplate}  />
       </DataTable>

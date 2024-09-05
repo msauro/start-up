@@ -10,7 +10,8 @@ export const teachersList = [
       "phone": 3413000000,
       "isActive": true,
       "rol": Role.TEACHER,
-      "level": 'L1'
+      "level": 'L1',
+      "alias": 'Milu'
    
     },
     {
