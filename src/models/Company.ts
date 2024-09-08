@@ -9,5 +9,4 @@ export default interface Company {
     city: string,
     contact: string,
     
-
   }

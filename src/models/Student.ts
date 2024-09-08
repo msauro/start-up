@@ -1,7 +1,6 @@
-import Person from "./person";
+import Person from "./Person";
 
 export default interface Student extends Person {
      level:string,
-     companyId?: string,
-     companyName: string,
+     companyId?: number,
 }

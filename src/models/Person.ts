@@ -1,20 +1,17 @@
-
 export default interface Person {
-  id: string,
-  name: string,
-  surname: string,
-  alias: string,
-  dob?: Date,
-  mail: string,
-  phone: number,
-  rol: Role,
-  isActive: boolean,
-  city?: string,
-  
-
+  id: string;
+  name: string;
+  surname: string;
+  alias?: string;
+  dob?: Date;
+  email: string;
+  phone: number;
+  rol: Role;
+  isActive: boolean;
+  city?: string;
 }
 
 export enum Role {
-    STUDENT='student',
-    TEACHER='teacher'
+  STUDENT = "student",
+  TEACHER = "teacher",
 }

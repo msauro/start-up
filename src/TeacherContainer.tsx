@@ -16,9 +16,7 @@ import { AddButton } from './components/AddButton';
 export const TeacherContainer = () => {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
 
-
     useEffect(() => {
-
         const filteredList = teachersList.filter((teacher) => teacher.isActive == true);
         setTeachers(filteredList)
 
@@ -27,10 +25,8 @@ export const TeacherContainer = () => {
 
     return (
         <>
-        
             <AddButton />
-            {teachers.length >0 &&
-            
+            {teachers.length > 0 &&
                 <div className="card">
                     <DataTableSt dataPerson={teachersList} />
                 </div>

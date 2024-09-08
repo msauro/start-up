@@ -1,6 +1,6 @@
-import Person from "./person";
+import Person from "./Person";
 
 export default interface Teacher extends Person {
-     level?:string,
+     studies?:string,
      
 }

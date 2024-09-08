@@ -19,8 +19,7 @@ export const StudentContainer = () => {
     return (
         <>
             <AddButton />
-
-            {students.length > 0 && 
+            {students.length > 0 &&
                 <div className="card">
                     <DataTableSt dataPerson={studentsList} />
                 </div>
