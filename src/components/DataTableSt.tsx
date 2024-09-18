@@ -1,8 +1,6 @@
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import Student from '../models/Student';
-import Teacher from '../models/Teacher';
-import { Role } from '../models/Person';
+import Person, { Role } from '../models/Person';
 import { useEffect, useState } from 'react';
 import { InputSwitch, InputSwitchChangeEvent } from 'primereact/inputswitch';
 import { Tag } from 'primereact/tag';
@@ -10,7 +8,8 @@ import { Button } from 'primereact/button';
 import { PersonDetail } from '../PersonDetail';
 
 interface Data {
-  dataPerson: Student[] | Teacher[];
+  dataPerson: Person[];
+  //dataCompany: Company
 }
 
 enum ActionType {
@@ -20,15 +19,24 @@ enum ActionType {
 
 export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
   const [metaKey, setMetaKey] = useState<boolean>(false);
-  const [data, setData] = useState<Student[] | Teacher[]>([]);
-  const [selectedPerson, setSelectedPerson] = useState<Student | Teacher | null>();
+  const [data, setData] = useState<Person[]>([]);
+  const [selectedPerson, setSelectedPerson] = useState<Person>();
   const [action, setAction] = useState<string | null>();
   const footer = `In total there are ${data ? data.length : 0} rows.`;
   const dataPersonFiltered = dataPerson.filter((row) => row.isActive == true)
 
-  useEffect(() => {
+ /*  COMO PUEDO MOSTRAR EL NOMBRE DE LA COMPAÑIA, DEBERUA HACER UN FIND DENTRO DE DATA PERSON
+  PARA VER SI TIENE COMPANYID? */
+
+ /*  if (selectedPerson.rol === Role.STUDENT && selectedPerson.companyId){
+    searchCompany(selectedPerson.companyId) //mando el id y recupero el nombre de la empresa, con un find o alguna funcion de arrays
+  } */
+
+  useEffect(() => { //seberia agregar al set data la compañia? o solo la muestro en la tabla?
+    
     if (metaKey) {
       setData(dataPerson)
+
     } else {
       setData(dataPersonFiltered)
     }
@@ -41,22 +49,23 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
   };
 
 
-  const statusBodyTemplate = (rowData: Student | Teacher) => {
+  const statusBodyTemplate = (rowData: Person) => {
     return <Tag value={rowData.isActive.toString()} severity={getSeverity(rowData.isActive)} />;
   };
 
-  const handleIconClick = (selectedPerson: Student | Teacher, action: string) => {
+  const handleIconClick = (selectedPerson: Person, action: string) => {
     setSelectedPerson(selectedPerson)
     setAction(action)
-    // return <PersonDetail selectedPerson={selectedPerson} action={action}/>
+    
+    //return <PersonDetail selectedPerson={selectedPerson} action={action}/>
   }
 
-  const handleBackClick = () => { //DEBERIA HACER ESTO PARA EL MENU TAMBIEN
-    setSelectedPerson(null);
+  const handleBackClick = () => { 
+    setSelectedPerson(undefined);
     setAction(null);
   };
 
-  const iconBodyTemplate = (selectedPerson: Student | Teacher) => {
+  const iconBodyTemplate = (selectedPerson: Person) => {
     return (
       <>
         <Button
@@ -98,7 +107,13 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
           <Column field="surname" sortable header="Surname"></Column>
           <Column field="mail" header="Mail"></Column>
           <Column field="phone" header="Phone"></Column>
-          {dataPerson[0].rol === Role.STUDENT && <Column field="level" sortable header="Level"></Column>}
+          {dataPerson[0].rol === Role.STUDENT && 
+            <>            
+              <Column field="level" sortable header="Level"></Column>
+              <Column field="companyId" sortable header="Company"></Column>
+            </>
+
+          }
           <Column field="alias" sortable header="Alias"></Column>
           <Column field="isActive" header="Active" body={statusBodyTemplate} />
           <Column field="actions" header="Actions" body={iconBodyTemplate} />

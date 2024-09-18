@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import { studentsList } from './data/students';
 import { DataTableSt } from './components/DataTableSt';
-import Student from './models/Student';
 import { AddButton } from './components/AddButton';
+import Person from './models/Person';
+import { personList } from './data/person';
 
 //repite con teacher
 export const StudentContainer = () => {
-    const [students, setStudents] = useState<Student[]>([]);
+    const [students, setStudents] = useState<Person[]>([]);
 
 
     useEffect(() => {
-        const filteredList = studentsList.filter((student) => student.isActive == true);
+        const filteredList = personList.filter((student) => student.isActive == true);
         setStudents(filteredList)
 
         //     TeachersService.getTeachers().then(data => setTeachers(data));

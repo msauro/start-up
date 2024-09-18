@@ -1,7 +1,4 @@
 import { Button } from "primereact/button";
-import Student from "./models/Student";
-import Teacher from "./models/Teacher";
-import Company from "./models/Company";
 import { InputText } from "primereact/inputtext";
 import { Message } from "primereact/message";
 import { useState } from "react";
@@ -36,7 +33,9 @@ export const PersonDetail: React.FC<PersonDetailProps> = ({
   selectedPerson,
   onBack,
 }) => {
-  //Faltaria agregar la compañia y el level, que puede pertenecer solo al alumno
+
+  const [initialValues, setInitialValues] = useState(selectedPerson);
+
   const [formValues, setFormValues] = useState<FormValues>({
     id: selectedPerson.id,
     rol: selectedPerson.rol,
@@ -80,9 +79,19 @@ export const PersonDetail: React.FC<PersonDetailProps> = ({
     return <Message severity="error" text={`${id} is required`} />;
   };
 
-  const updatePerson = () => {
-    //guarda datos modificados datos
-    console.log(rol);
+  const updatePerson = () => { 
+    const updatedFields: Partial<Person> = {};
+    
+    Object.keys(formValues).forEach((key) => {
+      const typedKey = key as keyof FormValues;  
+      if (formValues[typedKey] !== selectedPerson[typedKey] && formValues[typedKey] !== undefined ) {
+          updatedFields[typedKey] = formValues[typedKey];
+        }
+      
+      return updatedFields;
+    });
+      console.log('updatedFields'); 
+      console.log(updatedFields); 
   };
 
   const handleInvalidField = (field: string) => {
