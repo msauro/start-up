@@ -3,8 +3,7 @@ import { Card } from "primereact/card"
 export const HomeContainer = () => {
   return (
     <>
-
-      <div className="grid">
+      <div className="grid p-3">
         <div className="col-12 md:col-6 lg:col-3">
           <div className="surface-0 shadow-2 p-3 border-1 border-50 border-round">
             <div className="flex justify-content-between mb-3">
@@ -66,7 +65,6 @@ export const HomeContainer = () => {
           </div>
         </div>
       </div>
-
     </>
   )
 }

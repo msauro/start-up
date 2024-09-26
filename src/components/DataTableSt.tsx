@@ -25,15 +25,15 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
   const footer = `In total there are ${data ? data.length : 0} rows.`;
   const dataPersonFiltered = dataPerson.filter((row) => row.isActive == true)
 
- /*  COMO PUEDO MOSTRAR EL NOMBRE DE LA COMPAÑIA, DEBERUA HACER UN FIND DENTRO DE DATA PERSON
-  PARA VER SI TIENE COMPANYID? */
+  /*  COMO PUEDO MOSTRAR EL NOMBRE DE LA COMPAÑIA, DEBERUA HACER UN FIND DENTRO DE DATA PERSON
+   PARA VER SI TIENE COMPANYID? */
 
- /*  if (selectedPerson.rol === Role.STUDENT && selectedPerson.companyId){
-    searchCompany(selectedPerson.companyId) //mando el id y recupero el nombre de la empresa, con un find o alguna funcion de arrays
-  } */
+  /*  if (selectedPerson.rol === Role.STUDENT && selectedPerson.companyId){
+     searchCompany(selectedPerson.companyId) //mando el id y recupero el nombre de la empresa, con un find o alguna funcion de arrays
+   } */
 
   useEffect(() => { //seberia agregar al set data la compañia? o solo la muestro en la tabla?
-    
+
     if (metaKey) {
       setData(dataPerson)
 
@@ -45,7 +45,7 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
 
 
   const getSeverity = (isActive: boolean) => {
-    return isActive? 'success' : 'danger'
+    return isActive ? 'success' : 'danger'
   };
 
 
@@ -56,11 +56,11 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
   const handleIconClick = (selectedPerson: Person, action: string) => {
     setSelectedPerson(selectedPerson)
     setAction(action)
-    
+
     //return <PersonDetail selectedPerson={selectedPerson} action={action}/>
   }
 
-  const handleBackClick = () => { 
+  const handleBackClick = () => {
     setSelectedPerson(undefined);
     setAction(null);
   };
@@ -107,8 +107,8 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson }) => {
           <Column field="surname" sortable header="Surname"></Column>
           <Column field="mail" header="Mail"></Column>
           <Column field="phone" header="Phone"></Column>
-          {dataPerson[0].rol === Role.STUDENT && 
-            <>            
+          {dataPerson[0].rol === Role.STUDENT &&
+            <>
               <Column field="level" sortable header="Level"></Column>
               <Column field="companyId" sortable header="Company"></Column>
             </>
