@@ -79,24 +79,24 @@ export const PersonDetail: React.FC<PersonDetailProps> = ({
     return <Message severity="error" text={`${id} is required`} />;
   };
 
-  const updatePerson = () => { 
+  const updatePerson = () => {
     const updatedFields: Partial<Person> = {};
-    
+
     Object.keys(formValues).forEach((key) => {
-      const typedKey = key as keyof FormValues;  
-      if (formValues[typedKey] !== selectedPerson[typedKey] && formValues[typedKey] !== undefined ) {
-          updatedFields[typedKey] = formValues[typedKey];
-        }
-      
+      const typedKey = key as keyof FormValues;
+      if (formValues[typedKey] !== selectedPerson[typedKey] && formValues[typedKey] !== undefined) {
+        updatedFields[typedKey] = formValues[typedKey];
+      }
+
       return updatedFields;
     });
-      console.log('updatedFields'); 
-      console.log(updatedFields); 
+    console.log('updatedFields');
+    console.log(updatedFields);
   };
 
   const handleInvalidField = (field: string) => {
     return (
-      field.length < 3
+      field.length < 2
     )
   }
 
