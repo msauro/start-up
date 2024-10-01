@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { teachersList } from './data/teachers';
+import { teachersList } from './data/old_teachers';
 import { DataTableSt } from './components/DataTableSt';
 import { AddButton } from './components/AddButton';
 import Person from './models/Person';

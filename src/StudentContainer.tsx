@@ -1,28 +1,29 @@
 import { useState, useEffect } from 'react';
-import { studentsList } from './data/students';
 import { DataTableSt } from './components/DataTableSt';
-import { AddButton } from './components/AddButton';
-import Person from './models/Person';
+import Person, { Role } from './models/Person';
 import { personList } from './data/person';
 
-//repite con teacher
 export const StudentContainer = () => {
     const [students, setStudents] = useState<Person[]>([]);
 
 
     useEffect(() => {
-        const filteredList = personList.filter((student) => student.isActive == true);
+        const filteredList = personList.filter((student) => student.rol == Role.STUDENT);
+        console.log(filteredList)
         setStudents(filteredList)
 
         //     TeachersService.getTeachers().then(data => setTeachers(data));
     }, []);
 
+    const handleUpdateStudent = (studentRow: Person) => {
+        console.log(studentRow)
+    }
+
     return (
         <>
-            <AddButton />
             {students.length > 0 &&
                 <div className="card">
-                    <DataTableSt dataPerson={studentsList} />
+                    <DataTableSt dataPerson={students} handleUpdateStudent={handleUpdateStudent} />
                 </div>
             }
 

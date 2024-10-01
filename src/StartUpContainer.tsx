@@ -7,22 +7,24 @@ import { BreadCrumb } from './components/Breadcrumb';
 import { ScheduleContainer } from './ScheduleContainer';
 import { ContactContainer } from './ContactContainer';
 import { HomeContainer } from './HomeContainer';
+import { ManagementContainer } from './ManagementContainer';
 
-    enum menubar {
-        HOME,
-        TEACHER,
-        STUDENT,
-        SCHEDULE,
-        CONTACT
+enum menubar {
+    HOME,
+    TEACHER,
+    STUDENT,
+    SCHEDULE,
+    MANAGEMENT,
+    CONTACT
+}
+
+export const StartUpContainer = () => {
+
+    const [selectedMenu, setSelectedMenu] = useState<menubar>(menubar.HOME)
+
+    const onClickMenu = (e: menubar) => {
+        setSelectedMenu(e)
     }
-
-    export const StartUpContainer = () => {
-
-        const [selectedMenu, setSelectedMenu] = useState<menubar>(menubar.HOME)
-        
-        const onClickMenu = (e: menubar) =>{
-            setSelectedMenu(e)
-        }
 
     const items: MenuItem[] = [
         {
@@ -77,38 +79,46 @@ import { HomeContainer } from './HomeContainer';
             ]
         },
         {
+            label: 'Management',
+            icon: 'pi pi-wallet',
+            command: () => onClickMenu(menubar.MANAGEMENT),
+        },
+        {
             label: 'Contact',
             icon: 'pi pi-envelope',
             command: () => onClickMenu(menubar.CONTACT),
 
         }
     ];
-    
+
     return (
         <>
-        <Menubar model={items} />
+            <Menubar model={items} />
 
-        <BreadCrumb breadCrumbName={menubar[selectedMenu]}/>
+            <BreadCrumb breadCrumbName={menubar[selectedMenu]} />
 
-        {selectedMenu === menubar.HOME && (
-            <>
-                <HomeContainer />
-            </>
-        )}
-        {selectedMenu === menubar.STUDENT && (
-            <>
-                <StudentContainer/>
-            </>
-        )}
-        {selectedMenu === menubar.TEACHER && (
-            <TeacherContainer/>
-        )}
-        {selectedMenu === menubar.SCHEDULE && (
-            <ScheduleContainer />
-        )}
-        {selectedMenu === menubar.CONTACT && (
-            <ContactContainer />
-        )}
+            {selectedMenu === menubar.HOME && (
+                <>
+                    <HomeContainer />
+                </>
+            )}
+            {selectedMenu === menubar.STUDENT && (
+                <>
+                    <StudentContainer />
+                </>
+            )}
+            {selectedMenu === menubar.TEACHER && (
+                <TeacherContainer />
+            )}
+            {selectedMenu === menubar.SCHEDULE && (
+                <ScheduleContainer />
+            )}
+            {selectedMenu === menubar.MANAGEMENT && (
+                <ManagementContainer />
+            )}
+            {selectedMenu === menubar.CONTACT && (
+                <ContactContainer />
+            )}
 
 
         </>
