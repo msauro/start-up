@@ -89,4 +89,14 @@ export const personList = [
     isActive: false,
     rol: Role.TEACHER,
   },
+  {
+    id: 9,
+    name: "Matias",
+    surname: "Sincurso",
+    email: "matiSin@a.com",
+    rol: Role.STUDENT,
+    levelId: 3,
+    phone: 3415000009,
+    isActive: true,
+  },
 ];

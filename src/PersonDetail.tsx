@@ -7,7 +7,7 @@ import Person from "./models/Person"
 import { Message } from "primereact/message"
 import { Calendar, CalendarProps } from "primereact/calendar"
 import { InputNumber, InputNumberValueChangeEvent } from "primereact/inputnumber"
-import { getCompanies, getCompany, getCourse, getLevel, getLevelCourses, getLevelName, getLevels } from "./utils/utils"
+import { getCompanies, getCompany, getCourse, getLevel, getLevelCourses, getLevels } from "./utils/utils"
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown"
 import Level from "./models/Level"
 
@@ -43,17 +43,44 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdateStud
   }
 
   const handleNumberChange = (e: InputNumberValueChangeEvent) => {
-    console.log(e.value)
+    console.log('e')
+    console.log(e)
+    setPersonForm(({
+      ...personForm,
+      [e.target.id]: e.value
+    }));
   }
 
   const handleUpdate = () => {
+    console.log('e.personForm')
+    console.log(personForm)
+
     handleUpdateStudent(personForm)
   }
 
-  const [selectedLevel, setSelectedLevel] = useState<Level | null>(getLevel(personForm.levelId) ?? null);
-  const [selectedCourse, setSelectedCourse] = useState<Level | null>(getCourse(personForm.courseId) ?? null);
-  const [selectedCompany, setSelectedCompany] = useState<Level | null>(getCompany(personForm.companyId) ?? null);
+  const [selectedLevel, setSelectedLevel] = useState<Level | undefined>(getLevel(personForm.levelId as number));
+  const [selectedCourse, setSelectedCourse] = useState<Level | undefined>(getCourse(personForm.courseId as number));
+  const [selectedCompany, setSelectedCompany] = useState<Level | undefined>(getCompany(personForm.companyId as number));
 
+
+
+  function handleLevelDropdownChange(event: DropdownChangeEvent): void {
+    setPersonForm({
+      ...personForm,
+      [event.target.id]: event.target.value.id
+    })
+
+    setSelectedLevel(event.value)
+    setSelectedCourse(undefined)
+  }
+
+  function handleCourseDropdownChange(event: DropdownChangeEvent): void {
+    setPersonForm({
+      ...personForm,
+      [event.target.id]: event.target.value.id
+    })
+    setSelectedCourse(event.value)
+  }
 
 
   return (
@@ -64,12 +91,12 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdateStud
       <div className="flex align-items-center justify-content-center">
         <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
           <div className="text-center mb-5">
-            <img src="/images/blocks/logos/hyper.svg" alt="hyper" height={50} className="mb-3" />
+            {!personForm.courseId && <Tag severity="info" value="Sin curso"></Tag>}
+
             <div className="text-900 text-3xl font-medium mb-3">Edit Person</div>
             <span className="text-600 font-medium line-height-3">Don't have an account?</span>
-            <p>Dependiendo si debe, no debe o no tiene curso asignado muestro:</p>
+            <p>Dependiendo si debe, no debe muestro:</p>
             <Tag severity="success" value="Sin deuda"></Tag>
-            <Tag severity="info" value="Sin curso"></Tag>
             <Tag severity="danger" value="Debe"></Tag>
             <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Debe
             </a>
@@ -89,24 +116,21 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdateStud
             <Calendar dateFormat="dd/mm/yy" id="dob" placeholder="Birthday" value={personForm.dob} onChange={handleCalendarChange} className="w-full mb-3" />
 
             <label htmlFor="phone" className="block text-900 font-medium mb-2">Phone</label>
-            <InputNumber id="phone" type="number" placeholder="Phone" value={personForm.phone} onValueChange={handleNumberChange} className="w-full mb-3" />
+            <InputNumber id="phone" placeholder="Phone" value={personForm.phone} onValueChange={handleNumberChange} className="w-full mb-3" />
 
             <label htmlFor="city" className="block text-900 font-medium mb-2">City</label>
             <InputText id="city" type="text" placeholder="City" value={personForm.city} onChange={handleInputChange} className="w-full mb-3" />
 
-            <label htmlFor="level" className="block text-900 font-medium mb-2">Level</label>
-            <Dropdown id="level" value={selectedLevel} onChange={(e: DropdownChangeEvent) => setSelectedLevel(e.value)} options={getLevels()} optionLabel="name"
+            <label htmlFor="levelId" className="block text-900 font-medium mb-2">Level</label>
+            <Dropdown id="levelId" value={selectedLevel} onChange={handleLevelDropdownChange} options={getLevels()} optionLabel="name"
               placeholder="Select a Level" className="w-full md:w-14rem" checkmark={true} highlightOnSelect={false} />
 
             <label htmlFor="courseId" className="block text-900 font-medium mb-2">Course</label>
-            {/* <InputText id="courseId" type="text" placeholder="Course" value={getCourse(personForm.courseId as number)?.name} onValueChange={handleNumberChange} className="w-full mb-3" /> */}
-           //DEBERIA HACER QUE EL Dropdown de curso DEPENDA DEL NIVEL "selectedLevel" SELECCIONADO, O dEL "selectedPerson.levelId" // le puedo mandar "selectedLevel"
-            <Dropdown id="courseId" value={selectedCourse} onChange={(e: DropdownChangeEvent) => setSelectedCourse(e.value)} options={getLevelCourses(personForm.levelId as number)} optionLabel="name"
+            <Dropdown id="courseId" value={selectedCourse} onChange={handleCourseDropdownChange} options={getLevelCourses(selectedLevel?.id as number)} optionLabel="name"
               placeholder="Select a Course" className="w-full md:w-14rem" checkmark={true} highlightOnSelect={false} />
 
-            <label htmlFor="company" className="block text-900 font-medium mb-2">Company</label>
-            {/* <InputText id="company" type="text" placeholder="Company" value={getCompany(personForm.companyId as number)?.name} onValueChange={handleNumberChange} className="w-full mb-3" />
-             */}<Dropdown id="company" value={selectedCompany} onChange={(e: DropdownChangeEvent) => setSelectedCompany(e.value)} options={getCompanies()} optionLabel="name"
+            <label htmlFor="companyId" className="block text-900 font-medium mb-2">Company</label>
+            <Dropdown id="companyId" value={selectedCompany} onChange={(e: DropdownChangeEvent) => setSelectedCompany(e.value)} options={getCompanies()} optionLabel="name"
               placeholder="Select a Company" className="w-full md:w-14rem" checkmark={true} highlightOnSelect={false} />
 
             <label htmlFor="email" className="block text-900 font-medium mb-2">Email</label>

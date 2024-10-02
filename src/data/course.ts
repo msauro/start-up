@@ -54,4 +54,15 @@ export const coursesList = [
     day: "Viernes",
     hour: "08:00",
   },
+  {
+    id: 6,
+    name: "PRE3",
+    levelId: 3,
+    unit: 3,
+    students: [2],
+    teacherId: 3,
+    isActive: true,
+    day: "Jueves",
+    hour: "18:00",
+  },
 ];
