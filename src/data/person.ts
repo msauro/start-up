@@ -6,7 +6,7 @@ export const personList = [
     name: "Ramon",
     surname: "Diaz",
     alias: "Reimon",
-    dob: new Date("15/02/2000"),
+    dob: new Date("2000-02-15"),
     email: "ramon@a.com",
     phone: 3415000000,
     rol: Role.STUDENT,

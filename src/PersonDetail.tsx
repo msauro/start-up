@@ -5,7 +5,7 @@ import { Tag } from "primereact/tag"
 import { useState } from "react"
 import Person from "./models/Person"
 import { Message } from "primereact/message"
-import { Calendar, CalendarProps } from "primereact/calendar"
+import { Calendar, CalendarViewChangeEvent } from "primereact/calendar"
 import { InputNumber, InputNumberValueChangeEvent } from "primereact/inputnumber"
 import { getCompanies, getCompany, getCourse, getLevel, getLevelCourses, getLevels } from "./utils/utils"
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown"
@@ -13,15 +13,13 @@ import Level from "./models/Level"
 
 interface Props {
   selectedPerson: Person;
-  handleUpdateStudent: (studentRow: Person) => void;
+  handleUpdatePerson: (personRow: Person) => void;
   handleBackClick: () => void;
 }
 
-export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdateStudent, handleBackClick }) => {
+export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePerson, handleBackClick }) => {
 
   const [personForm, setPersonForm] = useState<Person>(selectedPerson);
-  console.log('personForm')
-  console.log(personForm)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -38,13 +36,19 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdateStud
     }));
   };
 
-  const handleCalendarChange = (e: CalendarProps) => {
-    console.log(e.value)
+  const handleDateChange = (e: CalendarViewChangeEvent) => {
+    console.log('e')
+    console.log(e)
+    const selectedDate: Date = e.value;
+    // Formatear a dd/mm/yy
+    const formattedDate = selectedDate.toLocaleDateString('es-AR');
+    setPersonForm(({
+      ...personForm,
+      dob: new Date(formattedDate)
+    }));
   }
 
   const handleNumberChange = (e: InputNumberValueChangeEvent) => {
-    console.log('e')
-    console.log(e)
     setPersonForm(({
       ...personForm,
       [e.target.id]: e.value
@@ -52,10 +56,7 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdateStud
   }
 
   const handleUpdate = () => {
-    console.log('e.personForm')
-    console.log(personForm)
-
-    handleUpdateStudent(personForm)
+    handleUpdatePerson(personForm)
   }
 
   const [selectedLevel, setSelectedLevel] = useState<Level | undefined>(getLevel(personForm.levelId as number));
@@ -113,7 +114,7 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdateStud
             <InputText id="alias" type="text" placeholder="Alias" value={personForm.alias} onChange={handleInputChange} className="w-full mb-3" />
 
             <label htmlFor="dob" className="block text-900 font-medium mb-2">Birthday</label>
-            <Calendar dateFormat="dd/mm/yy" id="dob" placeholder="Birthday" value={personForm.dob} onChange={handleCalendarChange} className="w-full mb-3" />
+            <Calendar dateFormat="dd/mm/yy" id="dob" placeholder="Birthday" value={personForm.dob} onChange={handleDateChange} className="w-full mb-3" />
 
             <label htmlFor="phone" className="block text-900 font-medium mb-2">Phone</label>
             <InputNumber id="phone" placeholder="Phone" value={personForm.phone} onValueChange={handleNumberChange} className="w-full mb-3" />
@@ -123,15 +124,15 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdateStud
 
             <label htmlFor="levelId" className="block text-900 font-medium mb-2">Level</label>
             <Dropdown id="levelId" value={selectedLevel} onChange={handleLevelDropdownChange} options={getLevels()} optionLabel="name"
-              placeholder="Select a Level" className="w-full md:w-14rem" checkmark={true} highlightOnSelect={false} />
+              placeholder="Select a Level" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
 
             <label htmlFor="courseId" className="block text-900 font-medium mb-2">Course</label>
             <Dropdown id="courseId" value={selectedCourse} onChange={handleCourseDropdownChange} options={getLevelCourses(selectedLevel?.id as number)} optionLabel="name"
-              placeholder="Select a Course" className="w-full md:w-14rem" checkmark={true} highlightOnSelect={false} />
+              placeholder="Select a Course" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
 
             <label htmlFor="companyId" className="block text-900 font-medium mb-2">Company</label>
             <Dropdown id="companyId" value={selectedCompany} onChange={(e: DropdownChangeEvent) => setSelectedCompany(e.value)} options={getCompanies()} optionLabel="name"
-              placeholder="Select a Company" className="w-full md:w-14rem" checkmark={true} highlightOnSelect={false} />
+              placeholder="Select a Company" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
 
             <label htmlFor="email" className="block text-900 font-medium mb-2">Email</label>
             <InputText id="email" type="text" placeholder="Email address" value={personForm.email} onChange={handleInputChange} className="w-full mb-3" />

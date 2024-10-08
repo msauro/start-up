@@ -10,7 +10,8 @@ import { AddButton } from './AddButton';
 
 interface Data {
   dataPerson: Person[];
-  handleUpdateStudent: (studentRow: Person) => void;
+  role: Role;
+  handleUpdatePerson: (studentRow: Person) => void;
 }
 
 enum ActionType {
@@ -18,20 +19,13 @@ enum ActionType {
   DELETE = 'delete'
 }
 
-export const DataTableSt: React.FC<Data> = ({ dataPerson, handleUpdateStudent }) => {
+export const DataTableSt: React.FC<Data> = ({ dataPerson, role, handleUpdatePerson }) => {
   const [switchIsActive, setSwitchIsActive] = useState<boolean>(false);
   const [data, setData] = useState<Person[]>([]);
   const [selectedPerson, setSelectedPerson] = useState<Person>();
   const [action, setAction] = useState<string | null>();
   const footer = `In total there are ${data ? data.length : 0} rows.`;
   const dataPersonFiltered = dataPerson.filter((row) => row.isActive == true)
-
-  /*  COMO PUEDO MOSTRAR EL NOMBRE DE LA COMPAÑIA, DEBERUA HACER UN FIND DENTRO DE DATA PERSON
-   PARA VER SI TIENE COMPANYID? */
-
-  /*  if (selectedPerson.rol === Role.STUDENT && selectedPerson.companyId){
-     searchCompany(selectedPerson.companyId) //mando el id y recupero el nombre de la empresa, con un find o alguna funcion de arrays
-   } */
 
   useEffect(() => { //seberia agregar al set data la compañia? o solo la muestro en la tabla?
 
@@ -90,7 +84,7 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson, handleUpdateStudent })
     return (
       <PersonDetail
         selectedPerson={selectedPerson}
-        handleUpdateStudent={handleUpdateStudent}
+        handleUpdatePerson={handleUpdatePerson}
         handleBackClick={handleBackClick}
       />
     );
@@ -99,25 +93,41 @@ export const DataTableSt: React.FC<Data> = ({ dataPerson, handleUpdateStudent })
   return (
     <>
       <AddButton />
-
+      {console.log('Role.STUDENT')}
+      {console.log(Role.STUDENT)}
+      {console.log(role)} // SALE STUDENT
+      {console.log(`role: ${role} === Role.STUDENT: ${role === Role.STUDENT}`)}
       <div className="flex justify-content-center align-items-center mb-4 gap-2">
         <InputSwitch inputId="input-metakey" checked={switchIsActive} onChange={(e: InputSwitchChangeEvent) => setSwitchIsActive(e.value!)} />
         <label htmlFor="input-metakey">Show all</label>
       </div>
-      {
-        data &&
+      {console.log('data:', data)}
+
+
+      if (data && role === Role.STUDENT) {
+
         <DataTable value={data} footer={footer} stripedRows tableStyle={{ minWidth: '50rem' }}>
           <Column field="name" sortable header="Name"></Column>
           <Column field="surname" sortable header="Surname"></Column>
           <Column field="email" header="Mail"></Column>
           <Column field="phone" header="Phone"></Column>
-          {dataPerson[0].rol === Role.STUDENT &&
-            <>
-              <Column field="level" sortable header="Level"></Column>
-              <Column field="companyId" sortable header="Company"></Column>
-            </>
+          <Column field="levelId" sortable header="Level"></Column>
+          {/* ESTOS CAMPOS SON EXCLUSIVOS DE LOS ESTUDIANTES (no pude hacer el if aca pq no lo mostraba) */}
+          <Column field="levelId" sortable header="Level"></Column>
+          <Column field="companyId" sortable header="Company"></Column>
+          <Column field="isActive" header="Debe" body={statusBodyTemplate} />
 
-          }
+          <Column field="alias" sortable header="Alias"></Column>
+          <Column field="isActive" header="Active" body={statusBodyTemplate} />
+          <Column field="actions" header="Actions" body={iconBodyTemplate} />
+        </DataTable>
+      } else {
+        <DataTable value={data} footer={footer} stripedRows tableStyle={{ minWidth: '50rem' }}>
+          <Column field="name" sortable header="Name"></Column>
+          <Column field="surname" sortable header="Surname"></Column>
+          <Column field="email" header="Mail"></Column>
+          <Column field="phone" header="Phone"></Column>
+          <Column field="levelId" sortable header="Level"></Column>
           <Column field="alias" sortable header="Alias"></Column>
           <Column field="isActive" header="Active" body={statusBodyTemplate} />
           <Column field="actions" header="Actions" body={iconBodyTemplate} />
