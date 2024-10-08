@@ -7,6 +7,7 @@ import { InputSwitch, InputSwitchChangeEvent } from 'primereact/inputswitch';
 import { Tag } from 'primereact/tag';
 import { PersonDetail } from '../PersonDetail';
 import { AddButton } from './AddButton';
+import { getCompany, getLevel } from '../utils/utils';
 
 enum ActionType {
     DETAIL = 'detail',
@@ -56,15 +57,24 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
         return <Tag value={rowData.isActive.toString()} severity={getSeverity(rowData.isActive)} />;
     };
 
+    const levelBodyTemplate = (rowData: Person) => {
+        return <Tag value={getLevel(rowData.levelId)?.name} severity={getSeverity(rowData.isActive)} />;
+    };
+    const companyBodyTemplate = (rowData: Person) => {
+        return <Tag value={getCompany(rowData.companyId)?.name} severity={getSeverity(rowData.isActive)} />;
+    };
+
+    //HACER FUNCION PARA DETERMINAR SI DEBE O NO EL ALUMNO!!!!!!!!
+    const quoteBodyTemplate = (rowData: Person) => {
+        return <Tag value={getCompany(rowData.companyId)?.name} severity={getSeverity(rowData.isActive)} />;
+    };
+
 
     const columnsPerson: ColumnMeta[] = [
         { field: 'name', header: 'Name' },
         { field: 'surname', header: 'Surname' },
         { field: 'email', header: 'Mail' },
         { field: 'phone', header: 'Phone' },
-        // { field: 'levelId', header: 'Level ID' },
-        // { field: 'companyId', header: 'companyId' },
-        // { field: 'isActive', header: 'Debe?' },
         { field: 'alias', header: 'alias' },
         { header: 'Active', body: statusBodyTemplate },
         { header: 'Actions', body: iconBodyTemplate },
@@ -128,10 +138,13 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
 
     const handleColumnsStudents = () => {
         const studentColumns: ColumnMeta[] = [
-            { field: 'levelId', header: 'Level ID' },
-            { field: 'companyId', header: 'Company ID' },
-            { field: 'isActive', header: 'Debe?' }
+            { header: 'Company', body: companyBodyTemplate },
+            { header: 'Level', body: levelBodyTemplate },
+            { header: 'Debe?', body: quoteBodyTemplate },
+
         ];
+
+        //PARA DEJAR LA COLUMNA ACTIONS SIEMPRE AL FINAL
         const newColumns = [
             ...columnsPerson.slice(0, -1), // Todos menos la última columna (Actions)
             ...studentColumns, // Nuevas columnas de estudiantes

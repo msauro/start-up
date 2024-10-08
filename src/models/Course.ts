@@ -1,11 +1,9 @@
-import Person from "./Person";
-
 export default interface Course {
   id: number;
   name: string;
-  level: string;
+  levelId: number;
   unit: number;
-  students: Array<Person>;
+  students: Array<number>;
   teacherId: number;
   isActive: boolean;
   day: string;
