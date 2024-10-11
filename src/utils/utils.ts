@@ -1,6 +1,7 @@
 import { companiesList } from "../data/company";
 import { coursesList } from "../data/course";
 import { levelList } from "../data/level";
+import { personList } from "../data/person";
 import Company from "../models/Company";
 import Course from "../models/Course";
 import Level from "../models/Level";
@@ -29,11 +30,9 @@ export const getLevel = (levelId?: number): Level | undefined => {
 };
 
 export const getLevels = () => {
-  //TIENE SENTIDO???????????????????????????????????????
   return levelList;
 };
 export const getCompanies = () => {
-  //TIENE SENTIDO???????????????????????????????????????
   return companiesList;
 };
 
@@ -42,9 +41,16 @@ export const getLevelCourses = (levelPerson: number) => {
   return coursesList.filter((element) => element.levelId === levelPerson);
 };
 
-//hacer funcion para recuperar los alumnos de un curso
+//find devuleve el primero que encuentra, filter SIEMPRE devuelve un array
+export const getIdStudentsByCourse = (courseId: number) => {
+  const course = getCourse(courseId);
+  return course ? course.students : [];
+};
 
-export const getStudentsByCourse = (courseId: number) => {
-  const course = coursesList.filter((element) => element.id === courseId);
-  getStudentsByCourse(course.students);
+export const countActivePersonByRole = (role: string) => {
+  return personList.filter((element) => element.rol === role).length;
+};
+
+export const countActiveCourses = () => {
+  return coursesList.filter((course) => course.isActive === true).length;
 };

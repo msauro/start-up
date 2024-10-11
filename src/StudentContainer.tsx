@@ -16,18 +16,18 @@ export const StudentContainer = () => {
 
     const handleUpdatePerson = (studentRow: Person) => {
         //AGREGAR TOAST DE EXITO O de NO  ACTUALIZACION***************************************
-        setStudents(students => {
-            const updatedStudents = [...students];
-            const index = updatedStudents.findIndex(student => student.id === studentRow.id);
-
-            if (index !== -1) {
-                updatedStudents[index] = studentRow; // Actualiza el objeto
+        // renderizar de nuevo la tabla
+        const studentsUpdated = students.map((student) => {
+            if (student.id === studentRow.id) {
+                return studentRow
+            } else {
+                return student
             }
-            console.log('updatedStudents')
-            console.log(updatedStudents)
-            return updatedStudents; // Retorna el nuevo array
+        })
+        console.log('studentsUpdated')
+        console.log(studentsUpdated)
 
-        });
+        setStudents(studentsUpdated)
 
     }
 

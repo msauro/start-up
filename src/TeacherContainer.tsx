@@ -3,14 +3,6 @@ import Person, { Role } from './models/Person';
 import { personList } from './data/person';
 import { DataTablePerson } from './components/DataTablePerson';
 
-// interface Teacher {
-//     id: string;
-//     name: string,
-//     surname: string,	
-//     mail: string,
-//     phone: number,
-//     isActive: boolean,
-// }
 
 export const TeacherContainer = () => {
     const [teachers, setTeachers] = useState<Person[]>([]);

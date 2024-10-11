@@ -23,6 +23,7 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
+    console.log(e.target)
     setPersonForm({
       ...personForm,
       [id]: value,
@@ -49,13 +50,15 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
   }
 
   const handleNumberChange = (e: InputNumberValueChangeEvent) => {
+    console.log(e)
+
     setPersonForm(({
       ...personForm,
       [e.target.id]: e.value
     }));
   }
 
-  const handleUpdate = () => {
+  const handleUpdateDetail = () => {
     handleUpdatePerson(personForm)
   }
 
@@ -65,24 +68,37 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
 
 
 
-  function handleLevelDropdownChange(event: DropdownChangeEvent): void {
+  const handleLevelDropdownChange = (e: DropdownChangeEvent): void => {
     setPersonForm({
       ...personForm,
-      [event.target.id]: event.target.value.id
+      [e.target.id]: e.value.id,
+      //ACA DEBERIA USAR UN ENUM?
+      ['courseId']: undefined
     })
 
-    setSelectedLevel(event.value)
+    setSelectedLevel(e.value)
     setSelectedCourse(undefined)
   }
 
-  function handleCourseDropdownChange(event: DropdownChangeEvent): void {
+
+  const handleCourseDropdownChange = (e: DropdownChangeEvent): void => {
+    console.log('e')
+    console.log(e)
     setPersonForm({
       ...personForm,
-      [event.target.id]: event.target.value.id
+      [e.target.id]: e.value.id
     })
-    setSelectedCourse(event.value)
+    setSelectedCourse(e.value)
   }
 
+
+  const handleCompanyChange = (e: DropdownChangeEvent): void => {
+    setPersonForm({
+      ...personForm,
+      [e.target.id]: e.value.id
+    })
+    setSelectedCompany(e.value)
+  }
 
   return (
     <>
@@ -123,15 +139,15 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
             <InputText id="city" type="text" placeholder="City" value={personForm.city} onChange={handleInputChange} className="w-full mb-3" />
 
             <label htmlFor="levelId" className="block text-900 font-medium mb-2">Level</label>
-            <Dropdown id="levelId" value={selectedLevel} onChange={handleLevelDropdownChange} options={getLevels()} optionLabel="name"
+            <Dropdown id="levelId" value={selectedLevel} onChange={handleLevelDropdownChange} options={[{ name: 'None', value: null }, ...getLevels()]} optionLabel="name"
               placeholder="Select a Level" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
 
             <label htmlFor="courseId" className="block text-900 font-medium mb-2">Course</label>
-            <Dropdown id="courseId" value={selectedCourse} onChange={handleCourseDropdownChange} options={getLevelCourses(selectedLevel?.id as number)} optionLabel="name"
+            <Dropdown id="courseId" value={selectedCourse} onChange={handleCourseDropdownChange} options={[{ name: 'None', value: null }, ...getLevelCourses(selectedLevel?.id as number)]} optionLabel="name"
               placeholder="Select a Course" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
 
             <label htmlFor="companyId" className="block text-900 font-medium mb-2">Company</label>
-            <Dropdown id="companyId" value={selectedCompany} onChange={(e: DropdownChangeEvent) => setSelectedCompany(e.value)} options={getCompanies()} optionLabel="name"
+            <Dropdown id="companyId" value={selectedCompany} onChange={handleCompanyChange} options={[{ name: 'None', value: null }, ...getCompanies()]} optionLabel="name"
               placeholder="Select a Company" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
 
             <label htmlFor="email" className="block text-900 font-medium mb-2">Email</label>
@@ -143,7 +159,7 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
               severity={personForm.isActive ? "success" : "error"}
               text={personForm.isActive ? "Active" : "Inactive"}
             />
-            <Button label="Update" icon="pi pi-update" onClick={handleUpdate} className="w-full mt-3" />
+            <Button label="Update" icon="pi pi-update" onClick={handleUpdateDetail} className="w-full mt-3" />
           </div>
         </div>
       </div>

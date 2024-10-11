@@ -1,5 +1,11 @@
-
-export const StatCard = ({ name, total, piIcon, time, totalNew }) => {
+interface StatCardProps {
+    name: string;
+    primaryTotal: number;
+    piIcon: string;
+    time: string;
+    secondaryTotal: number;
+}
+export const StatCard = ({ name, primaryTotal, piIcon, time, secondaryTotal }: StatCardProps) => {
     return (
         <>
             <div className="col-12 md:col-6 lg:col-3">
@@ -7,13 +13,13 @@ export const StatCard = ({ name, total, piIcon, time, totalNew }) => {
                     <div className="flex justify-content-between mb-3">
                         <div>
                             <span className="block text-500 font-medium mb-3">{name}</span>
-                            <div className="text-900 font-medium text-xl">{total}</div>
+                            <div className="text-900 font-medium text-xl">{primaryTotal}</div>
                         </div>
                         <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
                             <i className={`pi ${piIcon} text-blue-500 text-xl`}></i>
                         </div>
                     </div>
-                    <span className="text-green-500 font-medium">{totalNew} new </span>
+                    <span className="text-green-500 font-medium">{secondaryTotal} new </span>
                     <span className="text-500">{time}</span>
                 </div>
             </div>

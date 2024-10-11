@@ -60,6 +60,8 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
     const levelBodyTemplate = (rowData: Person) => {
         return <Tag value={getLevel(rowData.levelId)?.name} severity={getSeverity(rowData.isActive)} />;
     };
+
+    //EN VEZ DE RETRONAR UN TAG, RETORNAR UN VALOR COMUN!
     const companyBodyTemplate = (rowData: Person) => {
         return <Tag value={getCompany(rowData.companyId)?.name} severity={getSeverity(rowData.isActive)} />;
     };
@@ -85,6 +87,9 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
 
 
     useEffect(() => {
+        console.log('dataPerson:', dataPerson);
+        console.log('dataPersonFiltered:', dataPersonFiltered);
+        console.log('El componente se ha renderizado nuevamente.');
 
         if (switchIsActive) {
             setData(dataPerson)
@@ -93,7 +98,7 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
             setData(dataPersonFiltered)
         }
         //     TeachersService.getTeachers().then(data => setTeachers(data));
-    }, [switchIsActive]);
+    }, [switchIsActive, dataPerson]);
 
     useEffect(() => {
 
