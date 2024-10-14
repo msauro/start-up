@@ -60,6 +60,7 @@ export const personList = [
     dob: new Date("28/08/1990"),
     isActive: true,
     rol: Role.TEACHER,
+    cbu: "milu.mp",
     alias: "Milu",
   },
   {
@@ -78,6 +79,7 @@ export const personList = [
     email: "andrea@a.com",
     phone: 3413000002,
     isActive: true,
+    cbu: "andre.mp",
     rol: Role.TEACHER,
   },
   {
@@ -87,6 +89,7 @@ export const personList = [
     email: "mari@a.com",
     phone: 3413000003,
     isActive: false,
+    cbu: "mari.mp",
     rol: Role.TEACHER,
   },
   {

@@ -3,7 +3,7 @@ import { InputSwitch, InputSwitchChangeEvent } from "primereact/inputswitch"
 import { InputText } from "primereact/inputtext"
 import { Tag } from "primereact/tag"
 import { useState } from "react"
-import Person from "./models/Person"
+import Person, { Role } from "./models/Person"
 import { Message } from "primereact/message"
 import { Calendar, CalendarViewChangeEvent } from "primereact/calendar"
 import { InputNumber, InputNumberValueChangeEvent } from "primereact/inputnumber"
@@ -108,10 +108,12 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
       <div className="flex align-items-center justify-content-center">
         <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
           <div className="text-center mb-5">
-            {!personForm.courseId && <Tag severity="info" value="Sin curso"></Tag>}
+
+            {!personForm.courseId && personForm.rol == Role.STUDENT && <Tag severity="info" value="Sin curso"></Tag>}
 
             <div className="text-900 text-3xl font-medium mb-3">Edit Person</div>
-            <span className="text-600 font-medium line-height-3">Don't have an account?</span>
+            {personForm.rol == Role.TEACHER && <Button label="Courses" icon="pi pi-eye" />}
+
             <p>Dependiendo si debe, no debe muestro:</p>
             <Tag severity="success" value="Sin deuda"></Tag>
             <Tag severity="danger" value="Debe"></Tag>
@@ -138,17 +140,29 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
             <label htmlFor="city" className="block text-900 font-medium mb-2">City</label>
             <InputText id="city" type="text" placeholder="City" value={personForm.city} onChange={handleInputChange} className="w-full mb-3" />
 
-            <label htmlFor="levelId" className="block text-900 font-medium mb-2">Level</label>
-            <Dropdown id="levelId" value={selectedLevel} onChange={handleLevelDropdownChange} options={[{ name: 'None', value: null }, ...getLevels()]} optionLabel="name"
-              placeholder="Select a Level" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
 
-            <label htmlFor="courseId" className="block text-900 font-medium mb-2">Course</label>
-            <Dropdown id="courseId" value={selectedCourse} onChange={handleCourseDropdownChange} options={[{ name: 'None', value: null }, ...getLevelCourses(selectedLevel?.id as number)]} optionLabel="name"
-              placeholder="Select a Course" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
+            {personForm.rol == Role.STUDENT &&
+              (<>
+                <label htmlFor="levelId" className="block text-900 font-medium mb-2">Level</label>
+                <Dropdown id="levelId" value={selectedLevel} onChange={handleLevelDropdownChange} options={[{ name: 'None', value: null }, ...getLevels()]} optionLabel="name"
+                  placeholder="Select a Level" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
 
-            <label htmlFor="companyId" className="block text-900 font-medium mb-2">Company</label>
-            <Dropdown id="companyId" value={selectedCompany} onChange={handleCompanyChange} options={[{ name: 'None', value: null }, ...getCompanies()]} optionLabel="name"
-              placeholder="Select a Company" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
+                <label htmlFor="courseId" className="block text-900 font-medium mb-2">Course</label>
+                <Dropdown id="courseId" value={selectedCourse} onChange={handleCourseDropdownChange} options={[{ name: 'None', value: null }, ...getLevelCourses(selectedLevel?.id as number)]} optionLabel="name"
+                  placeholder="Select a Course" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
+                <label htmlFor="companyId" className="block text-900 font-medium mb-2">Company</label>
+                <Dropdown id="companyId" value={selectedCompany} onChange={handleCompanyChange} options={[{ name: 'None', value: null }, ...getCompanies()]} optionLabel="name"
+                  placeholder="Select a Company" className="w-full mb-3" checkmark={true} highlightOnSelect={false} />
+
+              </>
+              )}
+            {personForm.rol == Role.TEACHER &&
+              (<>
+                <label htmlFor="cbu" className="block text-900 font-medium mb-2">CBU / Alias</label>
+                <InputText id="cbu" type="text" placeholder="cbu alias" value={personForm.cbu} onChange={handleInputChange} className="w-full mb-3" />
+
+              </>
+              )}
 
             <label htmlFor="email" className="block text-900 font-medium mb-2">Email</label>
             <InputText id="email" type="text" placeholder="Email address" value={personForm.email} onChange={handleInputChange} className="w-full mb-3" />

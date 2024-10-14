@@ -12,6 +12,7 @@ export default interface Person {
   levelId?: number;
   companyId?: number;
   courseId?: number;
+  cbu?: string;
 }
 
 export enum Role {

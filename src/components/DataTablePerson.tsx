@@ -8,6 +8,7 @@ import { Tag } from 'primereact/tag';
 import { PersonDetail } from '../PersonDetail';
 import { AddButton } from './AddButton';
 import { getCompany, getLevel } from '../utils/utils';
+import { InputText } from 'primereact/inputtext';
 
 enum ActionType {
     DETAIL = 'detail',
@@ -87,10 +88,6 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
 
 
     useEffect(() => {
-        console.log('dataPerson:', dataPerson);
-        console.log('dataPersonFiltered:', dataPersonFiltered);
-        console.log('El componente se ha renderizado nuevamente.');
-
         if (switchIsActive) {
             setData(dataPerson)
 
@@ -107,6 +104,7 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
 
         } else {
             setColumns(columnsPerson)
+            handleColumnType(Role.TEACHER)
         }
         //     TeachersService.getTeachers().then(data => setTeachers(data));
     }, [role]);
@@ -146,7 +144,6 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
             { header: 'Company', body: companyBodyTemplate },
             { header: 'Level', body: levelBodyTemplate },
             { header: 'Debe?', body: quoteBodyTemplate },
-
         ];
 
         //PARA DEJAR LA COLUMNA ACTIONS SIEMPRE AL FINAL
@@ -157,6 +154,25 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
         ];
 
         setColumns(newColumns);
+    }
+
+    const handleColumnType = (rol: string) => {
+
+        const rolColumns: ColumnMeta[] = rol === Role.STUDENT ? [
+            { header: 'Company', body: companyBodyTemplate },
+            { header: 'Level', body: levelBodyTemplate },
+            { header: 'Debe?', body: quoteBodyTemplate },
+        ] : [
+            { header: 'CBU/ALIAS', body: (rowData: Person) => <InputText value={rowData.cbu} disabled /> },
+
+
+        ]
+        const newColumns = [
+            ...columnsPerson.slice(0, -1), // Todos menos la última columna (Actions)
+            ...rolColumns, // Nuevas columnas de estudiantes
+            columnsPerson[columnsPerson.length - 1] // Añade la columna de Actions al final
+        ];
+        setColumns(newColumns)
     }
 
     return (

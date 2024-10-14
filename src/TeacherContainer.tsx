@@ -8,7 +8,7 @@ export const TeacherContainer = () => {
     const [teachers, setTeachers] = useState<Person[]>([]);
 
     useEffect(() => {
-        const filteredList = personList.filter((teacher) => teacher.isActive == true);
+        const filteredList = personList.filter((teacher) => teacher.rol == Role.TEACHER);
         setTeachers(filteredList)
 
         //     TeachersService.getTeachers().then(data => setTeachers(data));
@@ -17,7 +17,7 @@ export const TeacherContainer = () => {
         //AGREGAR TOAST DE EXITO O NO DE ACTUALIZACION***************************************
         setTeachers(teachers => {
             const updatedTeachers = [...teachers];
-            const index = updatedTeachers.findIndex(student => student.id === teacherRow.id);
+            const index = updatedTeachers.findIndex(teacher => teacher.id === teacherRow.id);
             console.log('index')
             console.log(index)
             if (index !== -1) {
