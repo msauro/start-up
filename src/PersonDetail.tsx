@@ -10,6 +10,8 @@ import { InputNumber, InputNumberValueChangeEvent } from "primereact/inputnumber
 import { getCompanies, getCompany, getCourse, getLevel, getLevelCourses, getLevels } from "./utils/utils"
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown"
 import Level from "./models/Level"
+import Course from "./models/Course"
+import Company from "./models/Company"
 
 interface Props {
   selectedPerson: Person;
@@ -38,8 +40,6 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
   };
 
   const handleDateChange = (e: CalendarViewChangeEvent) => {
-    console.log('e')
-    console.log(e)
     const selectedDate: Date = e.value;
     // Formatear a dd/mm/yy
     const formattedDate = selectedDate.toLocaleDateString('es-AR');
@@ -50,8 +50,6 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
   }
 
   const handleNumberChange = (e: InputNumberValueChangeEvent) => {
-    console.log(e)
-
     setPersonForm(({
       ...personForm,
       [e.target.id]: e.value
@@ -63,8 +61,8 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
   }
 
   const [selectedLevel, setSelectedLevel] = useState<Level | undefined>(getLevel(personForm.levelId as number));
-  const [selectedCourse, setSelectedCourse] = useState<Level | undefined>(getCourse(personForm.courseId as number));
-  const [selectedCompany, setSelectedCompany] = useState<Level | undefined>(getCompany(personForm.companyId as number));
+  const [selectedCourse, setSelectedCourse] = useState<Course | undefined>(getCourse(personForm.courseId as number));
+  const [selectedCompany, setSelectedCompany] = useState<Company | undefined>(getCompany(personForm.companyId as number));
 
 
 
@@ -82,8 +80,6 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
 
 
   const handleCourseDropdownChange = (e: DropdownChangeEvent): void => {
-    console.log('e')
-    console.log(e)
     setPersonForm({
       ...personForm,
       [e.target.id]: e.value.id

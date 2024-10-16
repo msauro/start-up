@@ -8,7 +8,6 @@ import { Tag } from 'primereact/tag';
 import { PersonDetail } from '../PersonDetail';
 import { AddButton } from './AddButton';
 import { getCompany, getLevel } from '../utils/utils';
-import { InputText } from 'primereact/inputtext';
 
 enum ActionType {
     DETAIL = 'detail',
@@ -163,7 +162,7 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
             { header: 'Level', body: levelBodyTemplate },
             { header: 'Debe?', body: quoteBodyTemplate },
         ] : [
-            { header: 'CBU/ALIAS', body: (rowData: Person) => <InputText value={rowData.cbu} disabled /> },
+            { header: 'CBU/ALIAS', body: (rowData: Person) => <span>{rowData.cbu}</span> },
 
 
         ]
