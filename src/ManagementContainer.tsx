@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { AddButton } from "./components/AddButton";
-import { DataTableSt } from "./components/DataTableSt";
 import Person from "./models/Person";
 import { personList } from "./data/person";
-import { studentsList } from "./data/old_students";
 
 export const ManagementContainer = () => {
     const [students, setStudents] = useState<Person[]>([]);
@@ -23,7 +21,7 @@ export const ManagementContainer = () => {
             <AddButton />
             {students.length > 0 &&
                 <div className="card">
-                    <DataTableSt dataPerson={studentsList} />
+                    {/* <DataTableSt dataPerson={studentsList} /> */}
                 </div>
             }
 

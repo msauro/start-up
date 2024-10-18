@@ -24,8 +24,6 @@ export const StudentContainer = () => {
                 return student
             }
         })
-        console.log('studentsUpdated')
-        console.log(studentsUpdated)
 
         setStudents(studentsUpdated)
 

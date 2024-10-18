@@ -14,18 +14,35 @@ import Course from "./models/Course"
 import Company from "./models/Company"
 
 interface Props {
-  selectedPerson: Person;
-  handleUpdatePerson: (personRow: Person) => void;
-  handleBackClick: () => void;
+  selectedPerson?: Person;
+  handleUpdatePerson?: (personRow: Person) => void;
+  handleBackClick?: () => void;
 }
 
 export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePerson, handleBackClick }) => {
 
-  const [personForm, setPersonForm] = useState<Person>(selectedPerson);
+  const [personForm, setPersonForm] = useState<Person>(
+    selectedPerson ? selectedPerson : {
+      id: 0,
+      name: '',
+      surname: '',
+      alias: '',
+      dob: undefined,
+      email: '',
+      phone: 0,
+      rol: Role.STUDENT,
+      isActive: true,
+      city: '',
+      levelId: undefined,
+      companyId: undefined,
+      courseId: undefined,
+      cbu: '',
+    });
+
+  //if (selectedPerson) { setPersonForm(selectedPerson) }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    console.log(e.target)
     setPersonForm({
       ...personForm,
       [id]: value,
@@ -107,7 +124,7 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
 
             {!personForm.courseId && personForm.rol == Role.STUDENT && <Tag severity="info" value="Sin curso"></Tag>}
 
-            <div className="text-900 text-3xl font-medium mb-3">Edit Person</div>
+            <div className="text-900 text-3xl font-medium mb-3">Edit {personForm.rol}</div>
             {personForm.rol == Role.TEACHER && <Button label="Courses" icon="pi pi-eye" />}
 
             <p>Dependiendo si debe, no debe muestro:</p>
@@ -163,7 +180,7 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
             <label htmlFor="email" className="block text-900 font-medium mb-2">Email</label>
             <InputText id="email" type="text" placeholder="Email address" value={personForm.email} onChange={handleInputChange} className="w-full mb-3" />
 
-            <label htmlFor="isActive" className="block text-900 font-medium mb-2">Active</label>
+            <label htmlFor="isActive" className="block text-900 font-medium mb-2">Status</label>
             <InputSwitch id="isActive" checked={personForm.isActive} onChange={handleSwitchChange} />
             <Message
               severity={personForm.isActive ? "success" : "error"}
