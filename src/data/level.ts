@@ -9,7 +9,7 @@ export const levelList = [
   },
   {
     id: 3,
-    name: "Pre-Intermediate",
+    name: "Pre intermediate",
   },
   {
     id: 4,

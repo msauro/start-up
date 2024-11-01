@@ -6,28 +6,26 @@ import { DataTablePerson } from './components/DataTablePerson';
 
 export const TeacherContainer = () => {
     const [teachers, setTeachers] = useState<Person[]>([]);
+    const dataPersonFiltered = personList.filter((teacher) => teacher.rol == Role.TEACHER);
 
     useEffect(() => {
-        const filteredList = personList.filter((teacher) => teacher.rol == Role.TEACHER);
-        setTeachers(filteredList)
+        setTeachers(dataPersonFiltered)
 
         //     TeachersService.getTeachers().then(data => setTeachers(data));
-    }, []);
+    }, [dataPersonFiltered]);
     const handleUpdatePerson = (teacherRow: Person) => {
+        //deberia hacer un util tanto para students como para teachers
+
         //AGREGAR TOAST DE EXITO O NO DE ACTUALIZACION***************************************
         setTeachers(teachers => {
             const updatedTeachers = [...teachers];
             const index = updatedTeachers.findIndex(teacher => teacher.id === teacherRow.id);
-            console.log('index')
-            console.log(index)
             if (index !== -1) {
                 updatedTeachers[index] = teacherRow; // Actualiza el objeto
             }
             return updatedTeachers; // Retorna el nuevo array
 
         });
-        console.log('teachers')
-        console.log(teachers)
 
     }
     //handleUpdatePerson tengo que sacarlo de studentContainer y dejarlo fuera de todo en un componente aparte
@@ -36,7 +34,7 @@ export const TeacherContainer = () => {
             {teachers.length > 0 &&
                 <div className="card">
                     {/*                     <DataTableSt dataPerson={teachersList} role={Role.TEACHER} handleUpdatePerson={handleUpdatePerson} />
-                    */} <DataTablePerson dataPerson={teachers} role={Role.TEACHER} handleUpdatePerson={handleUpdatePerson} />
+                    */} <DataTablePerson dataPerson={teachers} dataPersonFiltered={dataPersonFiltered} role={Role.TEACHER} handleUpdatePerson={handleUpdatePerson} />
 
                 </div>
             }

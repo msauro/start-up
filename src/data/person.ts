@@ -25,7 +25,7 @@ export const personList = [
     levelId: 3,
     phone: 3415000001,
     city: "Cordoba",
-    isActive: true,
+    isActive: false,
     courseId: 2,
   },
   {

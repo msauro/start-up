@@ -15,7 +15,8 @@ import { InputIcon } from 'primereact/inputicon';
 
 enum ActionType {
     DETAIL = 'detail',
-    DELETE = 'delete'
+    DELETE = 'delete',
+    NEW = 'new'
 }
 
 interface ColumnMeta {
@@ -25,17 +26,17 @@ interface ColumnMeta {
 }
 interface DataTableProps {
     dataPerson: Person[];
+    dataPersonActive: Person[];
     role: Role;
     handleUpdatePerson: (person: Person) => void;
 }
 
-export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, handleUpdatePerson }) => {
+export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, dataPersonActive, role, handleUpdatePerson }) => {
     const [switchIsActive, setSwitchIsActive] = useState<boolean>(false);
     const [data, setData] = useState<Person[]>([]);
     const [selectedPerson, setSelectedPerson] = useState<Person>();
     const [action, setAction] = useState<string | null>();
     const footer = `In total there are ${data ? data.length : 0} rows.`;
-    const dataPersonFiltered = dataPerson.filter((row) => row.isActive == true)
     const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
     const [filters, setFilters] = useState<DataTableFilterMeta>({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -43,6 +44,7 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
         'company.name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         status: { value: null, matchMode: FilterMatchMode.EQUALS }
     });
+    const [showPersonDetail, setShowPersonDetail] = useState<boolean>();
 
     const iconBodyTemplate = (personRow: Person) => {
         return (
@@ -90,27 +92,21 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
         { field: 'email', header: 'Mail' },
         { field: 'phone', header: 'Phone' },
         { field: 'alias', header: 'alias' },
-        /* { header: 'Active', body: statusBodyTemplate }, */
         { header: 'Actions', body: iconBodyTemplate },
 
     ];
 
     const [columns, setColumns] = useState<ColumnMeta[]>(columnsPerson)
 
-    useEffect(() => {
-        if (switchIsActive) {
-            setData(dataPerson)
+    //setData(switchIsActive ? dataPerson : dataPersonActive)
 
-        } else {
-            setData(dataPersonFiltered)
-        }
-        //     TeachersService.getTeachers().then(data => setTeachers(data));
-    }, [switchIsActive, dataPerson]);
+    useEffect(() => {
+        setData(switchIsActive ? dataPerson : dataPersonActive);
+    }, [switchIsActive, dataPerson, dataPersonActive]);
 
     useEffect(() => {
         if (role === Role.STUDENT) {
             handleColumnType(Role.STUDENT)
-
         } else {
             setColumns(columnsPerson)
             handleColumnType(Role.TEACHER)
@@ -130,6 +126,8 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
     };
 
     if (action === ActionType.DETAIL && selectedPerson) {
+        console.log('selectedPerson')
+        console.log(selectedPerson)
         return (
             <PersonDetail
                 selectedPerson={selectedPerson}
@@ -137,13 +135,28 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
                 handleBackClick={handleBackClick}
             />
         );
+    } else if (action === ActionType.DELETE && selectedPerson) {
+        console.log('ELIMINAR')
+        selectedPerson.isActive = false;
+        console.log(selectedPerson);
+        handleUpdatePerson(selectedPerson)
+        setAction(null);
+
+    } else if (action === ActionType.NEW) {
+        console.log('HOLA PERDIDAD')
+        return (
+            <PersonDetail
+                handleBackClick={handleBackClick}
+                handleUpdatePerson={handleUpdatePerson}
+            />
+        )
     }
 
     const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        let _filters = { ...filters };
+        const _filters = { ...filters };
 
-        // @ts-ignore
+        // // @ts-ignore
         _filters['global'].value = value;
 
         setFilters(_filters);
@@ -182,18 +195,26 @@ export const DataTablePerson: React.FC<DataTableProps> = ({ dataPerson, role, ha
 
     const header = renderHeader();
 
+    const handleAddPerson = () => {
+        setAction(ActionType.NEW)
+        setShowPersonDetail(true); // Cambia el estado para mostrar PersonDetail
+
+    }
+
+
 
     return (
         <>
-            <AddButton />
-            <Button label="Add" icon="pi pi-plus" />
+            <AddButton onClick={handleAddPerson} />
+            {showPersonDetail && <PersonDetail handleBackClick={handleBackClick} />}
+            <Button label="Add1" icon="pi pi-plus" onClick={handleAddPerson} />
 
             <div className="flex justify-content-center align-items-center mb-4 gap-2">
                 <InputSwitch inputId="input-metakey" checked={switchIsActive} onChange={(e: InputSwitchChangeEvent) => setSwitchIsActive(e.value!)} />
                 <label htmlFor="input-metakey">{switchIsActive ? "All" : "Actives"}</label>
             </div>
             <DataTable value={data} footer={footer} tableStyle={{ minWidth: '50rem' }} filters={filters} filterDisplay="row"
-                globalFilterFields={['name', 'surname', 'email', 'phone', 'alias', 'company', 'debe', 'level']} header={header} emptyMessage="No customers found.">
+                globalFilterFields={['name', 'surname', 'email', 'phone', 'alias', 'company', 'debe', 'level']} header={header} emptyMessage="No results found.">
                 {columns.map((col, i) => (
                     <Column key={i} field={col.field} header={col.header} body={col.body} sortable />
                 ))}

@@ -74,7 +74,7 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
   }
 
   const handleUpdateDetail = () => {
-    handleUpdatePerson(personForm)
+    handleUpdatePerson?.(personForm)
   }
 
   const [selectedLevel, setSelectedLevel] = useState<Level | undefined>(getLevel(personForm.levelId as number));
@@ -124,7 +124,7 @@ export const PersonDetail: React.FC<Props> = ({ selectedPerson, handleUpdatePers
 
             {!personForm.courseId && personForm.rol == Role.STUDENT && <Tag severity="info" value="Sin curso"></Tag>}
 
-            <div className="text-900 text-3xl font-medium mb-3">Edit {personForm.rol}</div>
+            <div className="text-900 text-3xl font-medium mb-3">{personForm.id === 0 ? 'New' : 'Edit'} {personForm.rol}</div>
             {personForm.rol == Role.TEACHER && <Button label="Courses" icon="pi pi-eye" />}
 
             <p>Dependiendo si debe, no debe muestro:</p>

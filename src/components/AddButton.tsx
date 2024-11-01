@@ -1,16 +1,10 @@
 import { Button } from "primereact/button"
-import { PersonDetail } from "../PersonDetail"
 
 
-export const AddButton = () => {
-
-  const handleAddPerson = () => {
-    <PersonDetail />
-  }
-
+export const AddButton = ({ onClick }: { onClick: () => void }) => {
   return (
     <div className="card flex flex-wrap justify-content-end gap-3">
-      <Button label="Add" icon="pi pi-plus" onClick={handleAddPerson} />
+      <Button label="Add" icon="pi pi-plus" onClick={onClick} />
     </div>
   )
 }
